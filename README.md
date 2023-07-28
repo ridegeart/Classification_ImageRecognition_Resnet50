@@ -35,7 +35,7 @@ The github form [Github JayPatwardhan]
     - self.meta_filename 更改路徑
 6. train.py：加入自定義訓練集。
     - 不能 import 自定義 model：加入 __init__ 檔，並在 train.py 中加入 sys.path.append(os.getcwd()) 後再 import。
-    - 訓練要使用到的model：resnet50/inception/transformer。
+    - 訓練要使用到的model：resnet50/inceptionV4/transformer。
     - DataLoader 的 batch_size：
         - batch_size：62 #resnet50/inceptionV4/resnet101
         - batch_size：42 #Transformer
