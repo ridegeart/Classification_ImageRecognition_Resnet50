@@ -30,7 +30,7 @@ The github form [Github JayPatwardhan]
         2. i_downsample->downsample
         3. self.relu = nn.ReLU() -> self.relu = nn.ReLU(inplace=True)
         4. max_pool->maxpool
-4. (1)./ResNet.py 為無加入 CBAM 之模型檔
+    - ./ResNet.py 為無加入 CBAM 之模型檔
 5. load_dataset.py:
     - self.meta_filename 更改路徑
 6. train.py：加入自定義訓練集。
