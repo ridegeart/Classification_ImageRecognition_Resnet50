@@ -105,5 +105,5 @@ The github form : [Github - JayPatwardhan] [2]
     - os.chdir(current) ，更改 current 為自己的路徑。
     - from cifar100 import CIFAR100 ： cifar100.py。
 
-[1]: https://arxiv.org/pdf/1512.03385.pdf "Deep Residual Learning for Image Recognition"
+[Deep Residual Learning for Image Recognition]: https://arxiv.org/pdf/1512.03385.pdf "Deep Residual Learning for Image Recognition"
 [2]: https://github.com/JayPatwardhan/ResNet-PyTorch/tree/master "Github - JayPatwardhan"
