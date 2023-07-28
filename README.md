@@ -102,7 +102,7 @@ The github form [Github JayPatwardhan]
 
 ## Cutsomer Data Training
 1. 解壓縮cifar-100-python.tar.gz至訓練目錄，Cifar 100 資料集下載處：
-https://www.cs.toronto.edu/~kriz/cifar.html。
+https://www.cs.toronto.edu/~kriz/cifar.html
 
 ## Training
 1. cifar100_train.py：直接跑這個。
