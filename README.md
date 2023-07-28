@@ -45,15 +45,15 @@ The github form [Github JayPatwardhan]
         - ResNet50/ResNet101(num_classes)：輸入預計輸出的類別數。
         - VisionTransformer()：呼叫參數參考'Vit_b_16'。
     - Pretrained Weight：原本
-        - 將權重的輸出改為自定義數據集的num_epoch (以Transformer為例)
-            checkpoint['heads.head.weight'] = torch.rand((14, 768))
-            checkpoint['heads.head.bias'] = torch.rand(14)
-        - 將pretrained_dict與 model_state 配對
-            pretrained_dict =  {k: v for k, v in checkpoint.items() if k in model_state}
-        - 更新現有的model_dict
-            model_state.update(pretrained_dict)
-        - load更新後的model_state
-            net.load_state_dict(model_state)
+        - 將權重的輸出改為自定義數據集的num_epoch (以Transformer為例)  
+            checkpoint['heads.head.weight'] = torch.rand((14, 768))  
+            checkpoint['heads.head.bias'] = torch.rand(14)  
+        - 將pretrained_dict與 model_state 配對  
+            pretrained_dict =  {k: v for k, v in checkpoint.items() if k in model_state}  
+        - 更新現有的model_dict  
+            model_state.update(pretrained_dict)  
+        - load更新後的model_state  
+            net.load_state_dict(model_state)  
     - pg：只訓練可以訓練的參數。
     - 加入 net.train()，不加的話訓練準確率不會上升。
     - 沿用 scheduler.step() 更新學習率。
