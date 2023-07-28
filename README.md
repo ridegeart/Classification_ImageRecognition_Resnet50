@@ -1,6 +1,6 @@
 ﻿# Classification
-Implementation of ResNet 50, 101, 152 in PyTorch based on paper [Deep Residual Learning for Image Recognition] [1] by Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun. 
-The github form : [Github - JayPatwardhan] [2]
+Implementation of ResNet 50, 101, 152 in PyTorch based on paper [Deep Residual Learning for Image Recognition] by Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun. 
+The github form : [Github - JayPatwardhan]
 
 ### FMA_Defect
 
@@ -106,4 +106,4 @@ The github form : [Github - JayPatwardhan] [2]
     - from cifar100 import CIFAR100 ： cifar100.py。
 
 [Deep Residual Learning for Image Recognition]: https://arxiv.org/pdf/1512.03385.pdf "Deep Residual Learning for Image Recognition"
-[2]: https://github.com/JayPatwardhan/ResNet-PyTorch/tree/master "Github - JayPatwardhan"
+[Github - JayPatwardhan]: https://github.com/JayPatwardhan/ResNet-PyTorch/tree/master "Github - JayPatwardhan"
