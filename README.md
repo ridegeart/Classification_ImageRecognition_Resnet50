@@ -86,9 +86,12 @@ The github form [Github JayPatwardhan]
 - 熱力圖與原圖組合圖
 3. bg：畫布大小，(原圖width*2,原圖height)，(2,1)排列
 4. bg.save：儲存融合原圖與熱力圖的圖片位置
-- 如果要顯示True class的熱力圖
+- 顯示True class的熱力圖
 1. (line156)取消註解，並註解掉(line157)。
 2. (line161)取消註解，並註解掉(line162)。
+- 更改使用的模型
+1.model_features:讀取模型最後一層的輸出特徵圖。
+2.fc_weights：獲得fc層的權重。
 
 # Cifar 100
 
