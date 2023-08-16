@@ -13,7 +13,6 @@ from helper import read_meta
 import torch
 from torch.utils.data.dataloader import default_collate
 import torchvision
-from transforms import RandomMixup,RandomCutmix
 
 class LoadDataset(Dataset):
     '''Reads the given csv file and loads the data.
@@ -30,7 +29,7 @@ class LoadDataset(Dataset):
         self.image_size = image_size
         self.image_depth = image_depth
         self.return_label = return_label
-        self.meta_filename = 'C:/Users/CamyTang/FMADefect/ResNet50/dataset/pickle_files/meta'
+        self.meta_filename = './dataset/pickle_files/meta'
         self.transform = transform
         self.data_list = self.csv_to_list()
         self.coarse_labels, self.fine_labels ,self.third_labels= read_meta(self.meta_filename)

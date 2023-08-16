@@ -1,7 +1,7 @@
 import os
 import sys
 sys.path.append(os.getcwd())
-current = 'C:/Users/CamyTang/FMADefect/ResNet50/'
+current = '/home/agx/AUO_FMA/Resnet50_SingleLayer/'
 os.chdir(current)
 
 from tqdm import tqdm
@@ -14,6 +14,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from load_dataset import LoadDataset
+from helper import calculate_accuracy
 # 訓練要使用到的model 包含resnet/inception/transformer
 from model.ResNet import ResNet50,ResNet101
 from model.inceptionV4 import InceptionV4
@@ -49,8 +50,9 @@ if __name__ == '__main__':
 
     train_csv_path = './dataset/train.csv'
     test_csv_path = './dataset/test.csv'
-    
-    nw = min([os.cpu_count(), BatchSize if BatchSize > 1 else 0, 8])  # number of workers
+
+    # number of workers
+    nw = min([os.cpu_count(), BatchSize if BatchSize > 1 else 0, 8])  
     print('Using {} dataloader workers every process'.format(nw))
 
     train = LoadDataset(csv_path=train_csv_path, transform=transform_train)
@@ -61,29 +63,20 @@ if __name__ == '__main__':
 
     print('train_dataset:'+str(len(train)))
     print('test_dataset:'+str(len(test)))
-
-    def calculate_accuracy(predictions, labels):
-        '''Calculates the accuracy of the prediction.
-        '''
-        num_data = labels.size()[0]
-        predicted = torch.argmax(predictions, dim=1)
-        correct_pred = torch.sum(predicted == labels)
-
-        accuracy = correct_pred*(100/num_data)
-
-        return accuracy.item()
     
     #------------Normal Trained---------------------------
-    modelName = './dataset/jx_vit_base_patch16_224_in21k-e5005f0a.pth'
+    modelName = './dataset/resnet50-19c8e357.pth'
+    net = ResNet50(14)
+    """
     net = VisionTransformer(image_size=224, patch_size=16,num_layers=12,num_heads=12,
-                            hidden_dim=768, mlp_dim=3072).to(device)
-
+                            hidden_dim=768, mlp_dim=3072)
+    """
     #-------------Pretrained Weight---------------------------
     model_state = net.state_dict()
     checkpoint = torch.load(modelName)
 
     # 將預訓練的輸出(fc層)部分刪除
-    del_keys = ['head.weight', 'head.bias'] 
+    del_keys = ['fc.weight', 'fc.bias'] 
     for k in del_keys:
         del checkpoint[k]
     # 將pretrained_dict與 model_state 配對
@@ -92,24 +85,28 @@ if __name__ == '__main__':
     model_state.update(pretrained_dict)
     # load更新後的model_state
     net.load_state_dict(model_state)
+    net.to(device)
 
     criterion = nn.CrossEntropyLoss()
+    # pg：只訓練可以訓練的參數。
     pg = [p for p in net.parameters() if p.requires_grad]
     
     #----------optimizer 選擇----------------
     optimizer = optim.SGD(pg, lr=0.001, momentum=0.9, weight_decay=5E-5)
-    #optimizer = optim.Adam(net.parameters(), lr=0.1)
-    #optimizer = optim.AdamW(net.parameters(), lr=0.003, weight_decay=0.3)
-
+    '''
+    optimizer = optim.Adam(net.parameters(), lr=0.1)
+    optimizer = optim.AdamW(net.parameters(), lr=0.003, weight_decay=0.3)
+    '''
     #----------scheduler 選擇----------------
     lf = lambda x: ((1 + math.cos(x * math.pi / 100)) / 2) * (1 - 0.01) + 0.01  # cosine
     scheduler = optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lf)
-    #scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[30,60,90], gamma=0.2)
-    #scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='max', factor = 0.1, patience=5)
-    #main_lr_scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=200 - 30, eta_min=0.0)
-    #warmup_lr_scheduler = optim.lr_scheduler.LinearLR(optimizer, start_factor=0.033, total_iters=30)
-    #lr_scheduler = torch.optim.lr_scheduler.SequentialLR(optimizer, schedulers=[warmup_lr_scheduler, main_lr_scheduler], milestones=[30])
-    
+    '''
+    scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[30,60,90], gamma=0.2)
+    scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='max', factor = 0.1, patience=5)
+    main_lr_scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=200 - 30, eta_min=0.0)
+    warmup_lr_scheduler = optim.lr_scheduler.LinearLR(optimizer, start_factor=0.033, total_iters=30)
+    lr_scheduler = torch.optim.lr_scheduler.SequentialLR(optimizer, schedulers=[warmup_lr_scheduler, main_lr_scheduler], milestones=[30])
+    '''
     #-------------Model Size---------------------------
     '''
     summary(net,input_size=(3,224,224))
@@ -138,7 +135,6 @@ if __name__ == '__main__':
             losses.append(loss.item())
 
             loss.backward()
-            nn.utils.clip_grad_norm_(net.parameters(), 1) #new
             optimizer.step()
             
             epoch_acc.append(calculate_accuracy(predictions=outputs, labels=labels))
@@ -148,7 +144,7 @@ if __name__ == '__main__':
         avg_acc = sum(epoch_acc)/len(epoch_acc)
         train_epoch_acc.append(avg_acc)
         #scheduler.step(avg_loss)
-        scheduler.step()
+        scheduler.step() # 更新學習率
 
         print(f'Training Loss at epoch {epoch} : {avg_loss}')
         print(f'Training accuracy at epoch {epoch} : {avg_acc}')
@@ -177,27 +173,22 @@ if __name__ == '__main__':
         if train_acc < avg_testacc:
             train_acc = avg_testacc
             best_epoch = epoch
-            torch.save(net.state_dict(), './dataset/FMA_bestViT_pretrained.pth')
-            torch.save(net.state_dict(), './dataset/FMA_bestViT_pretrained.pt')
+            torch.save(net.state_dict(), './dataset/FMA_best50_pre.pth')
             print("Best Model saved!")
 
-        torch.save(net.state_dict(), './dataset/FMA_finViT_pretrained.pth')
-        torch.save(net.state_dict(), './dataset/FMA_finViT_pretrained.pt')
+        torch.save(net.state_dict(), './dataset/FMA_fin50_pre.pth')
         print("final Model saved!")
 
     print('Training Done')
 
     print('starte picture for acc')
     path='./graph_folder/'
-    file_name = './dataset/result/train_acc_ViT_pretrained.csv'
     num_epoch=100, 
     epochs = [x for x in range(num_epoch[0])]
     print(len(epochs),len(train_epoch_acc))
 
     train_accuracy_df = pd.DataFrame({"Epochs":epochs, "Accuracy":train_epoch_acc, "Mode":['train']*(num_epoch[0])})
     test_accuracy_df = pd.DataFrame({"Epochs":epochs, "Accuracy":test_epoch_acc, "Mode":['test']*(num_epoch[0])})
-    train_accuracy_df.to_csv(file_name, encoding='utf-8', index=False)
-    data_acc = pd.concat([train_accuracy_df, test_accuracy_df])
             
     sns.lineplot(data=data_acc.reset_index(), x='Epochs', y='Accuracy', hue='Mode')
     plt.title('Superclass Accuracy Graph')

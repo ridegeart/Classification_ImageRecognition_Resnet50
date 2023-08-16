@@ -14,36 +14,29 @@ from model.ResNet import Bottleneck, ResNet, ResNet50,ResNet101
 from load_dataset import LoadDataset
 from helper import read_meta
 from urllib.request import urlopen
-csv_save_name = 'detect0727_ViT_pretrained.csv'
-model_save_path = './dataset/'
-def makedirs(path):
-    try:
-        os.makedirs(path)
-    except:
-        return
+csv_save_name = 'detect0816_resnet50_pretrained.csv'
 
 if __name__ == "__main__":
         device = torch.device("cuda:0" if torch.cuda.is_available() else 'cpu')
 
         '''mdoelsave.pth location'''
-        os.chdir(model_save_path)
-        modelName = 'FMA_finViT_pretrained.pth'
+        modelName = './dataset/FMA_fin50_pretrained.pth'
 
         ''' Mode read'''
-        model = ResNet50(14).to(device)
+        model = ResNet50(14)
         model.load_state_dict(torch.load(modelName),False) #RuntimeError:Error(s) in loading state_dict for DataParallel 訓練與測試環境不同
+        model.to(device)
         model.eval()
 
         ''' predict csv'''
-        datacsv ='detect.csv' #args.test_csv現在路徑在args.model_save_path
+        datacsv ='./dataset/detect.csv' #args.test_csv現在路徑在args.model_save_path
 
         '''data - loader'''
         batch_size=1
         epoch = 1
         datadic={}
-        metafile = 'C:/Users/CamyTang/FMADefect/ResNet50/dataset/pickle_files/meta'
+        metafile = './dataset/pickle_files/meta'
         coarse_labels,fine_labels,third_labels = read_meta(metafile)
-        #detect_csv_path = 'detect.csv'
 
         detect_dataset = LoadDataset(csv_path=datacsv, transform=transforms.ToTensor())
         detect_generator = DataLoader(detect_dataset, batch_size=batch_size, shuffle=False, num_workers=2)
