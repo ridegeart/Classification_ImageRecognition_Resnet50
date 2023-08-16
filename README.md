@@ -84,7 +84,7 @@ The github form [Github JayPatwardhan]
 1. load_dataset.py : 將輸出改為只有一個 label_1 ，並從 third_labels 取index 而來。
 2. helper.py: 使用 read_meta 函式。
 
-### HeatMap熱力圖
+## HeatMap熱力圖
 - 使用 cam.py 畫圖
 1. current：修改為自己的專案位置
 2. modelName：已訓練好的權重檔
