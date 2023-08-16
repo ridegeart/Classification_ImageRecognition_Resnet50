@@ -2,7 +2,7 @@
 Implementation of ResNet 50, 101, 152 in PyTorch based on paper [Deep Residual Learning for Image Recognition] by Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun. 
 The github form [Github JayPatwardhan]
 
-# FMA_Defect
+# FMA_Defect_SingleLayer
 
 ## setting
 - train.py:路徑設定，os.chdir(current) ，更改 current 為自己的路徑。
