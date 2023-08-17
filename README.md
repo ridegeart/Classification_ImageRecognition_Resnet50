@@ -3,7 +3,7 @@ Implementation of ResNet 50, 101, 152 in PyTorch based on paper [Deep Residual L
 The github form [Github JayPatwardhan]
 
 # FMA_Defect_SingleLayer
-
+資料夾：'./Resnet50_SingleLayer'
 ## setting
 - train.py:路徑設定，os.chdir(current) ，更改 current 為自己的路徑。
 
