@@ -12,12 +12,12 @@ import matplotlib.pyplot as plt
 
 class_num = 14
 
-modelName = 'FMA_3layer_50.pth'  #更換為訓練好的模型
+modelName = './dataset/FMA_3layer_50.pth'  #更換為訓練好的模型
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else 'cpu')
 model = resnet50.ResNet50()
 model_ft = model.to(device)
-model_ft.load_state_dict(torch.load(modelName, map_location=lambda  storage, loc:storage))  
+model_ft.load_state_dict(torch.load(modelName, map_location=lambda  storage, loc:storage),False)  
 #讀取最後一層的輸出特徵圖
 model_features = nn.Sequential(*list(model_ft.children())[:-7])
 
@@ -34,16 +34,18 @@ for name, para in model_ft.named_parameters():
 fc_weights = model_ft.linear_lvl3.weight   #(14,2048)
 
 data_transform = {
-        "train": transforms.Compose([transforms.RandomAffine(40, scale=(.85, 1.15), shear=0),
+        "train": transforms.Compose([transforms.Resize((224, 224), Image.ANTIALIAS),
+                                    transforms.RandomAffine(40, scale=(.85, 1.15), shear=0),
                                     transforms.RandomHorizontalFlip(),
                                     transforms.RandomPerspective(distortion_scale=0.2),
                                     transforms.ColorJitter(brightness=0.5, contrast=0.5, saturation=0.5),
                                     transforms.ToTensor()]),
-        "val": transforms.Compose([transforms.ToTensor()])}
-""" 
+        "val": transforms.Compose([transforms.Resize((224, 224), Image.ANTIALIAS),
+                                    transforms.ToTensor()])}
+
 #---------------單張熱力圖------------------
 
-img_path = './dataset/images/CF PS DEFORMATION@NP@CF@CF_20220619_B5564PE-1-2.jpg'     ＃圖片路徑
+img_path = './dataset/images/CF PS DEFORMATION@NP@CF@CF_20220619_B5564PE-1-2.jpg'     #圖片路徑
 CAM_RESULT_PATH = './data/'  #熱力圖的儲存位置
 
 if not os.path.exists(CAM_RESULT_PATH):
@@ -64,7 +66,7 @@ probs = probs.cpu().numpy()
 idx = idx.cpu().numpy()
 # 獲得所有類別預測結果（含信心值,由大到小）
 for i in range(class_num):
-    print('{:.3f} -> {}'.format(probs[i], class_[idx[i]]))  #打印预测结果
+    print('{:.3f} -> {}'.format(probs[i], class_[idx[i]]))
 # 獲得熱力圖的函數
 def returnCAM(feature_conv, weight_softmax, class_idx):
     bz, nc, h, w = feature_conv.shape        #1,2048,56,56
@@ -96,7 +98,8 @@ cv2.putText(result, text, (20, 20), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale
 
 image_name_ = 'output'
 cv2.imwrite(CAM_RESULT_PATH + image_name_ + '_' + 'pred_' + class_[idx[0]] + '.jpg', result)  #写入存储磁盘
-""" 
+
+"""
 #----------------多張熱力圖繪圖-----------------
 imgpath = './dataset/detect_imgs/'  #detect圖片所在位置
 CAM_RESULT_PATH = './dataset/cam_pic/detect/cam_img/'   #熱力圖儲存資料夾路徑
@@ -179,3 +182,4 @@ for j,img in enumerate(os.listdir(imgpath)):
         im = Image.open(CAM_RESULT_PATH + img[:-4] + '_campred.jpg')
         bg.paste(im,(width,0))
         bg.save(CAM_RIGHT_PATH + img[:-4]+'_cam.jpg')
+"""
