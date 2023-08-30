@@ -13,7 +13,7 @@ The github form [Github JayPatwardhan]
 ## Model 
 1. cbam.py
 2. inceptionV4.py
-3. ResNet.py (50/101)
+3. ResNet.py (50/101，為有加入 CBAM 之模型檔)
 4. transformer.py (自己寫的網路架構)
 
 ## Cutsomer Data Training 
@@ -33,12 +33,11 @@ The github form [Github JayPatwardhan]
       |resnet101            |160 |
       |inceptionV4          |299 |
 
-4. ./model/ResNet.py 為有加入 CBAM 之模型檔。
-    - 為了接 pretrained weight 更改層命名 
-        1. batch_norm1->bn1
-        2. i_downsample->downsample
-        3. self.relu = nn.ReLU() -> self.relu = nn.ReLU(inplace=True)
-        4. max_pool->maxpool
+4. ResNet：為了接 pretrained weight 更改層命名 
+   - batch_norm1->bn1
+   - i_downsample->downsample
+   - self.relu = nn.ReLU() -> self.relu = nn.ReLU(inplace=True)
+   - max_pool->maxpool
 5. load_dataset.py:
     - self.meta_filename 更改路徑
 6. train.py：加入自定義訓練集。
