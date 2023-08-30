@@ -32,15 +32,9 @@ The github form [Github JayPatwardhan]
       |resnet50/Transformer |224 |
       |resnet101            |160 |
       |inceptionV4          |299 |
-
-4. ResNet：為了接 pretrained weight 更改層命名 
-   - batch_norm1->bn1
-   - i_downsample->downsample
-   - self.relu = nn.ReLU() -> self.relu = nn.ReLU(inplace=True)
-   - max_pool->maxpool
-5. load_dataset.py:
+4. load_dataset.py:
     - self.meta_filename 更改路徑
-6. train.py：加入自定義訓練集。
+5. train.py：加入自定義訓練集。
     - 不能 import 自定義 model：加入 __init__ 檔，並在 train.py 中加入 sys.path.append(os.getcwd()) 後再 import。
     - 訓練要使用到的model：resnet50/inceptionV4/transformer。
     - DataLoader 的 batch_size：
