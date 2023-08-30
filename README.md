@@ -1,3 +1,4 @@
+﻿https://github.com/ridegeart/Classification_ImageRecognition_Resnet50
 # Classification
 Implementation of ResNet 50, 101, 152 in PyTorch based on paper [Deep Residual Learning for Image Recognition] by Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun. 
 The github form [Github JayPatwardhan]
@@ -72,21 +73,21 @@ The github form [Github JayPatwardhan]
 1. load_dataset.py : 將輸出改為只有一個 label_1 ，並從 third_labels 取index 而來。
 2. helper.py: 使用 read_meta 函式。
 
-## HeatMap熱力圖 (3layer_Resnet50)
-1. 使用 cam_1pic.py / cam_mutiPic.py 畫圖
+## HeatMap熱力圖 (3layer_Resnet50)  
+1. cam_1pic.py：繪製單張熱力圖。
     - modelName：更改為已訓練好的權重檔的路徑。
-2. cam_1pic.py：繪製單張熱力圖。
     - img_path：欲輸入模型的圖片路徑。
     - CAM_RESULT_PATH：畫好的熱力圖的儲存路徑。
-3. cam_mutiPic.py：繪製多張熱力圖。
+2. cam_mutiPic.py：繪製多張熱力圖。
+    - modelName：更改為已訓練好的權重檔的路徑。
     - imgpath：欲輸入模型的資料夾路徑。
     - CAM_RESULT_PATH：畫好的熱力圖的儲存資料夾路徑。
     - CAM_FALSE_PATH：分類錯誤的熱力圖與原圖儲存路徑
     - CAM_RIGHT_PATH：分類正確的熱力圖與原圖儲存路徑
-4. 熱力圖與原圖組合圖
-    - 分類正確：生成的圖像 -> (原圖,預測類別)
-    - 分類錯誤：生成的圖像 -> (原圖,預測類別,真實類別)
-5. 更改畫熱力圖的模型
+    - 熱力圖與原圖組合圖
+        - 分類正確：生成的圖像 -> (原圖,預測類別)
+        - 分類錯誤：生成的圖像 -> (原圖,預測類別,真實類別)
+- 更改畫熱力圖的模型
     - model_features:讀取模型最後一層的輸出特徵圖。
     - fc_weights：獲得fc層的權重。
 
