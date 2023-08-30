@@ -1,14 +1,15 @@
-﻿# Classification
+﻿https://github.com/ridegeart/Classification_ImageRecognition_Resnet50
+# Classification
 Implementation of ResNet 50, 101, 152 in PyTorch based on paper [Deep Residual Learning for Image Recognition] by Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun. 
 The github form [Github JayPatwardhan]
 
-# FMA_Defect_SingleLayer
-資料夾：'./resnet50'
+# FMA_Defect
+
 ## setting
-- train.py:路徑設定，os.chdir(current) ，更改 current 為自己的路徑。
+- train.py：路徑設定，os.chdir(current) ，更改 current 為自己的路徑。
 
 ## Training 
-- 使用train.py 進行訓練。
+- 使用 train.py 進行訓練。
 
 ## Cutsomer Data Training 
 1. dataPickle_Transform.py : 建立meta/train/test 資料集資訊。
@@ -73,25 +74,22 @@ The github form [Github JayPatwardhan]
 2. helper.py: 使用 read_meta 函式。
 
 ## HeatMap熱力圖 (3layer_Resnet50)
-- 使用 cam.py 畫圖
-1. modelName：更改為已訓練好的權重檔的路徑。
-- 單張熱力圖
-1. img_path：欲輸入模型的圖片路徑。
-2. CAM_RESULT_PATH：畫好的熱力圖的儲存路徑。
-- 輸出多張熱力圖
-1. imgpath：欲輸入模型的資料夾路徑。
-2. CAM_RESULT_PATH：畫好的熱力圖的儲存資料夾路徑。
-3. CAM_FALSE_PATH：分類錯誤的熱力圖與原圖儲存路徑
-4. CAM_RIGHT_PATH：分類正確的熱力圖與原圖儲存路徑
-- 熱力圖與原圖組合圖
-3. bg：畫布大小，(原圖width*2,原圖height)，(2,1)排列
-4. bg.save：儲存融合原圖與熱力圖的圖片位置
-- 顯示True class的熱力圖
-1. (line156)取消註解，並註解掉(line157)->熱力圖繪製。
-2. (line161)取消註解，並註解掉(line162)->熱力圖文字顯示。
-- 更改使用的模型  
-1.model_features:讀取模型最後一層的輸出特徵圖。  
-2.fc_weights：獲得fc層的權重。
+1. 使用 cam_1pic.py / cam_mutiPic.py 畫圖
+    - modelName：更改為已訓練好的權重檔的路徑。
+2. cam_1pic.py：繪製單張熱力圖。
+    - img_path：欲輸入模型的圖片路徑。
+    - CAM_RESULT_PATH：畫好的熱力圖的儲存路徑。
+3. cam_mutiPic.py：繪製多張熱力圖。
+    - imgpath：欲輸入模型的資料夾路徑。
+    - CAM_RESULT_PATH：畫好的熱力圖的儲存資料夾路徑。
+    - CAM_FALSE_PATH：分類錯誤的熱力圖與原圖儲存路徑
+    - CAM_RIGHT_PATH：分類正確的熱力圖與原圖儲存路徑
+4. 熱力圖與原圖組合圖
+    - 分類正確：生成的圖像 -> (原圖,預測類別)
+    - 分類錯誤：生成的圖像 -> (原圖,預測類別,真實類別)
+5. 更改畫熱力圖的模型
+    - model_features:讀取模型最後一層的輸出特徵圖。
+    - fc_weights：獲得fc層的權重。
 
 # Cifar 100
 
@@ -103,6 +101,7 @@ https://www.cs.toronto.edu/~kriz/cifar.html
 1. cifar100_train.py：直接跑這個。
     - os.chdir(current) ，更改 current 為自己的路徑。
     - from cifar100 import CIFAR100 ： cifar100.py。
+2. cifar100.py：cifar 的 data loader。
 
 [Deep Residual Learning for Image Recognition]: https://arxiv.org/pdf/1512.03385.pdf "Deep Residual Learning for Image Recognition"
 [Github JayPatwardhan]: https://github.com/JayPatwardhan/ResNet-PyTorch/tree/master "Github - JayPatwardhan"
