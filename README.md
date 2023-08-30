@@ -22,9 +22,12 @@ The github form [Github JayPatwardhan]
     - train.csv /  test.csv為 train:test = 9:1。
 3. resize.py : 照片 resize 。
     - image_root：更改為照片所在路徑。
-    - image_size = 224 #resnet50/Transformer
-    - image_size = 160 #resnet101
-    - image_size = 299 #inceptionV4
+    |Model             |image_size |
+    |---------------------|--------|
+    |resnet50/Transformer |224 |
+    |resnet101            |160 |
+    |inceptionV4          |299 |
+
 4. ./model/ResNet.py 為有加入 CBAM 之模型檔。
     - 為了接 pretrained weight 更改層命名 
         1. batch_norm1->bn1
@@ -40,7 +43,7 @@ The github form [Github JayPatwardhan]
         - batch_size：62 #resnet50/inceptionV4/resnet101
         - batch_size：42 #Transformer
     - num_workers：BatchSize 參考DataLoader 的 batch_size。
-    - Normal Trained：使用 net 新增想用的訓練模型。
+    - Normal Trained：使用 net 新增想用的訓練模型，呼叫的方式不同。
         - ResNet50/ResNet101(num_classes)：輸入預計輸出的類別數。
         - ResNet50(num_classes,use_cbam=False)：無CBAM的resnet50。
         - VisionTransformer()：呼叫參數參考'Vit_b_16'。
