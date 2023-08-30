@@ -1,4 +1,3 @@
-﻿https://github.com/ridegeart/Classification_ImageRecognition_Resnet50
 # Classification
 Implementation of ResNet 50, 101, 152 in PyTorch based on paper [Deep Residual Learning for Image Recognition] by Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun. 
 The github form [Github JayPatwardhan]
