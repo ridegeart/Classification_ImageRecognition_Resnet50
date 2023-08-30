@@ -40,13 +40,15 @@ The github form [Github JayPatwardhan]
     - 不能 import 自定義 model：加入 __init__ 檔，並在 train.py 中加入 sys.path.append(os.getcwd()) 後再 import。
     - 訓練要使用到的model：resnet50/inceptionV4/transformer。
     - DataLoader 的 batch_size：
-        - batch_size：62 #resnet50/inceptionV4/resnet101
-        - batch_size：42 #Transformer
+        - |Model             |batch_size |
+          |------------------|-----------|
+          |resnet50/inceptionV4/resnet101 |62 |
+          |Transformer          |42 |
     - num_workers：BatchSize 參考DataLoader 的 batch_size。
     - Normal Trained：使用 net 新增想用的訓練模型，呼叫的方式不同。
-        - ResNet50/ResNet101(num_classes)：輸入預計輸出的類別數。
-        - ResNet50(num_classes,use_cbam=False)：無CBAM的resnet50。
-        - VisionTransformer()：呼叫參數參考'Vit_b_16'。
+        - ResNet50/ResNet101(num_classes) #輸入預計輸出的類別數。
+        - ResNet50(num_classes,use_cbam=False) #無CBAM的resnet50。
+        - VisionTransformer(---) #呼叫參數參考'Vit_b_16'。
     - Pretrained Weight：
         - 先建造模型，更改模型dict後，再load model to device。
     - 加入 checkpoint 機制，儲存測試準確率與訓練準確率最高的模型。
@@ -64,9 +66,11 @@ The github form [Github JayPatwardhan]
     - image 複製:(dataPickle_Transform/preimages/) 複製貼到 (data/detect_imgs/)。
 3. resize.py : data/detect_imgs 照片記得 resize。
     - Traintype = False
-    - image_size = 224 #resnet50/Transformer
-    - image_size = 160 #resnet101
-    - image_size = 299 #inceptionV4
+    - |Model             |image_size |
+      |------------------|-----------|
+      |resnet50/Transformer |224 |
+      |resnet101            |160 |
+      |inceptionV4          |299 |
 4. detect.py :  Inference預測，結果./dataset/result/detect_predict.csv。
     - modelName更改為訓練好的權重路徑。
     - 加載模型報錯：RuntimeError:Error(s) in loading state_dict for DataParallel，訓練模型與測試模型環境不一致，加入 load_state_dict(torch.load(modelName)) -> load_state_dict(torch.load(modelName),False)
