@@ -10,6 +10,12 @@ The github form [Github JayPatwardhan]
 ## Training 
 - 使用 train.py 進行訓練。
 
+## Model 
+1. cbam.py
+2. inceptionV4.py
+3. ResNet.py (50/101)
+4. transformer.py (自己寫的網路架構)
+
 ## Cutsomer Data Training 
 1. dataPickle_Transform.py : 建立meta/train/test 資料集資訊。
     - rootPic：訓練照片所在路徑。
