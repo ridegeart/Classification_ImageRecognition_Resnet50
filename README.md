@@ -22,11 +22,11 @@ The github form [Github JayPatwardhan]
     - train.csv /  test.csv為 train:test = 9:1。
 3. resize.py : 照片 resize 。
     - image_root：更改為照片所在路徑。
-    |Model             |image_size |
-    |---------------------|--------|
-    |resnet50/Transformer |224 |
-    |resnet101            |160 |
-    |inceptionV4          |299 |
+    - |Model             |image_size |
+      |------------------|-----------|
+      |resnet50/Transformer |224 |
+      |resnet101            |160 |
+      |inceptionV4          |299 |
 
 4. ./model/ResNet.py 為有加入 CBAM 之模型檔。
     - 為了接 pretrained weight 更改層命名 
