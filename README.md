@@ -90,7 +90,7 @@ The github form [Github JayPatwardhan]
 1. (line156)取消註解，並註解掉(line157)->熱力圖繪製。
 2. (line161)取消註解，並註解掉(line162)->熱力圖文字顯示。
 - 更改使用的模型  
-1.model_features:讀取模型最後一層的輸出特徵圖。
+1.model_features:讀取模型最後一層的輸出特徵圖。  
 2.fc_weights：獲得fc層的權重。
 
 # Cifar 100
