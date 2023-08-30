@@ -93,8 +93,8 @@ The github form [Github JayPatwardhan]
         - 分類正確：生成的圖像 -> (原圖,預測類別)
         - 分類錯誤：生成的圖像 -> (原圖,預測類別,真實類別)
 - 更改畫熱力圖的模型
-    - model_features:讀取模型最後一層的輸出特徵圖。
-    - fc_weights：獲得fc層的權重。
+    - model_features:讀取模型最後一層的輸出特徵圖，shape=(output_dim,最後一層的image_size)。
+    - fc_weights：獲得fc層的權重，shape=(num_classes,output_dim)。
 
 # Cifar 100
 
